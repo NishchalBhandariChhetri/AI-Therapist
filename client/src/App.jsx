@@ -1,5 +1,4 @@
-import { useState } from "react";
-import ChatBox from "./components/ChatBox";
+import ChatBox from "./components/ChatBox.jsx";
 
 function App() {
   return (
