@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "main": "src/index.js",
-  "homepage": "",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -22,6 +21,7 @@
     "autoprefixer": "^10.4.21",
     "gh-pages": "^6.1.1"
   },
+  "proxy": "http://localhost:5001",
   "browserslist": {
     "production": [
       ">0.2%",
