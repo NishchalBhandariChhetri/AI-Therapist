@@ -1,4 +1,12 @@
-function ChatBox({ chat, setChat }) {
+import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types'; // Add this for prop validation
+
+function ChatBox({ chat, setChat, sendMessage }) {
+  // Default props if not provided
+  const safeChat = chat || { title: "Chat 1", messages: [] };
+  const safeSetChat = setChat || (() => {});
+  const safeSendMessage = sendMessage || (() => Promise.reject(new Error("sendMessage not provided")));
+
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
@@ -7,7 +15,7 @@ function ChatBox({ chat, setChat }) {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [chat.messages, isTyping]);
+  }, [safeChat.messages, isTyping]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -15,29 +23,30 @@ function ChatBox({ chat, setChat }) {
     const userInput = input;
     setInput("");
 
-    const newMessages = [...chat.messages, { sender: "user", text: userInput }];
-    setChat({ ...chat, messages: newMessages });
+    const newMessages = [...safeChat.messages, { sender: "user", text: userInput }];
+    safeSetChat({ ...safeChat, messages: newMessages });
 
     setIsTyping(true);
 
     try {
-      const res = await sendMessage(userInput);
-
+      const res = await safeSendMessage(userInput);
+      console.log("Response from sendMessage:", res); // Debug log
       setIsTyping(false);
-      setChat({
-        ...chat,
+      safeSetChat({
+        ...safeChat,
         messages: [
           ...newMessages,
-          { sender: "bot", text: res.reply || "⚠️ Error: " + res.error },
+          { sender: "bot", text: res.reply || "⚠️ Error: " + (res.error || "Unknown error") },
         ],
       });
     } catch (err) {
+      console.log("Error in sendMessage:", err); // Debug log
       setIsTyping(false);
-      setChat({
-        ...chat,
+      safeSetChat({
+        ...safeChat,
         messages: [
           ...newMessages,
-          { sender: "bot", text: "⚠️ Failed to get a response." },
+          { sender: "bot", text: `⚠️ Failed to get a response: ${err.message}` },
         ],
       });
     }
@@ -45,9 +54,9 @@ function ChatBox({ chat, setChat }) {
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow-lg w-[400px]">
-      <h2 className="text-xl font-bold mb-4">{chat.title}</h2>
+      <h2 className="text-xl font-bold mb-4">{safeChat.title}</h2>
       <div className="h-64 overflow-y-auto border p-2 mb-4 rounded">
-        {chat.messages.map((msg, i) => (
+        {safeChat.messages.map((msg, i) => (
           <div
             key={i}
             className={msg.sender === "user" ? "text-right mb-2" : "text-left mb-2"}
@@ -91,3 +100,24 @@ function ChatBox({ chat, setChat }) {
     </div>
   );
 }
+
+// PropTypes for validation
+ChatBox.propTypes = {
+  chat: PropTypes.shape({
+    title: PropTypes.string,
+    messages: PropTypes.arrayOf(PropTypes.shape({
+      sender: PropTypes.string,
+      text: PropTypes.string,
+    })),
+  }),
+  setChat: PropTypes.func,
+  sendMessage: PropTypes.func,
+};
+
+ChatBox.defaultProps = {
+  chat: { title: "Chat 1", messages: [] },
+  setChat: () => {},
+  sendMessage: () => Promise.reject(new Error("sendMessage not provided")),
+};
+
+export default ChatBox;
