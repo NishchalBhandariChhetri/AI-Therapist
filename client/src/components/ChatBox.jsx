@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types'; // Add this for prop validation
+import PropTypes from 'prop-types';
 
 function ChatBox({ chat, setChat, sendMessage }) {
-  // Default props if not provided
   const safeChat = chat || { title: "Chat 1", messages: [] };
   const safeSetChat = setChat || (() => {});
   const safeSendMessage = sendMessage || (() => Promise.reject(new Error("sendMessage not provided")));
@@ -19,7 +18,6 @@ function ChatBox({ chat, setChat, sendMessage }) {
 
   const handleSend = async () => {
     if (!input.trim()) return;
-
     const userInput = input;
     setInput("");
 
@@ -27,43 +25,33 @@ function ChatBox({ chat, setChat, sendMessage }) {
     safeSetChat({ ...safeChat, messages: newMessages });
 
     setIsTyping(true);
-
     try {
       const res = await safeSendMessage(userInput);
-      console.log("Response from sendMessage:", res); // Debug log
       setIsTyping(false);
       safeSetChat({
         ...safeChat,
-        messages: [
-          ...newMessages,
-          { sender: "bot", text: res.reply || "⚠️ Error: " + (res.error || "Unknown error") },
-        ],
+        messages: [...newMessages, { sender: "bot", text: res.reply || "⚠️ Error" }],
       });
     } catch (err) {
-      console.log("Error in sendMessage:", err); // Debug log
       setIsTyping(false);
       safeSetChat({
         ...safeChat,
-        messages: [
-          ...newMessages,
-          { sender: "bot", text: `⚠️ Failed to get a response: ${err.message}` },
-        ],
+        messages: [...newMessages, { sender: "bot", text: `⚠️ Failed: ${err.message}` }],
       });
     }
   };
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-lg w-[400px]">
-      <h2 className="text-xl font-bold mb-4">{safeChat.title}</h2>
-      <div className="h-64 overflow-y-auto border p-2 mb-4 rounded">
+    <div className="bg-gray-100 p-6 rounded-2xl shadow-lg flex flex-col flex-grow max-w-4xl">
+      <h2 className="text-xl font-bold mb-4 text-gray-800">{safeChat.title}</h2>
+      <div className="flex-1 overflow-y-auto border p-3 mb-4 rounded bg-white">
         {safeChat.messages.map((msg, i) => (
-          <div
-            key={i}
-            className={msg.sender === "user" ? "text-right mb-2" : "text-left mb-2"}
-          >
+          <div key={i} className={`mb-2 ${msg.sender === "user" ? "text-right" : "text-left"}`}>
             <span
-              className={`inline-block px-3 py-2 rounded-lg ${
-                msg.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-200"
+              className={`inline-block px-3 py-2 rounded-lg max-w-[80%] ${
+                msg.sender === "user"
+                  ? "bg-blue-500 text-white"
+                  : "bg-white text-black border border-gray-300"
               }`}
             >
               {msg.text}
@@ -78,7 +66,6 @@ function ChatBox({ chat, setChat, sendMessage }) {
             </span>
           </div>
         )}
-
         <div ref={messagesEndRef} />
       </div>
 
@@ -89,6 +76,7 @@ function ChatBox({ chat, setChat, sendMessage }) {
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={(e) => e.key === "Enter" && handleSend()}
           placeholder="Share your thoughts..."
+          style={{ color: 'black' }}
         />
         <button
           className="bg-blue-500 text-white px-4 rounded-r-lg"
@@ -101,23 +89,15 @@ function ChatBox({ chat, setChat, sendMessage }) {
   );
 }
 
-// PropTypes for validation
 ChatBox.propTypes = {
   chat: PropTypes.shape({
     title: PropTypes.string,
-    messages: PropTypes.arrayOf(PropTypes.shape({
-      sender: PropTypes.string,
-      text: PropTypes.string,
-    })),
+    messages: PropTypes.arrayOf(
+      PropTypes.shape({ sender: PropTypes.string, text: PropTypes.string })
+    ),
   }),
   setChat: PropTypes.func,
   sendMessage: PropTypes.func,
-};
-
-ChatBox.defaultProps = {
-  chat: { title: "Chat 1", messages: [] },
-  setChat: () => {},
-  sendMessage: () => Promise.reject(new Error("sendMessage not provided")),
 };
 
 export default ChatBox;

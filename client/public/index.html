@@ -7,20 +7,23 @@
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body>
-    <div id="root">
-      <h1>AI Therapist</h1>
-      <div class="chat-container">
-        <input
-          type="text"
-          id="message-input"
-          placeholder="Type your message..."
-        />
-        <button onclick="sendMessage()">Send</button>
-        <div id="response" class="response">
-          AI: Waiting for your message...
+      <!-- Main Chat Area -->
+      <div id="root">
+        <h1>AI Therapist</h1>
+        <div class="chat-container">
+          <input
+            type="text"
+            id="message-input"
+            placeholder="Share your thoughts..."
+          />
+          <button onclick="sendMessage()">Send</button>
+          <div id="response" class="response">
+            AI: Waiting for your message...
+          </div>
         </div>
       </div>
     </div>
+
     <script>
       function sendMessage() {
         const input = document.getElementById("message-input");
