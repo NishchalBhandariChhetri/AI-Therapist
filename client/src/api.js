@@ -1,6 +1,6 @@
 export async function sendMessage(message) {
   try {
-    const response = await fetch("http://localhost:5001/api/chat", {
+    const response = await fetch("https://ai-therapist-5fcz.onrender.com", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message }),
