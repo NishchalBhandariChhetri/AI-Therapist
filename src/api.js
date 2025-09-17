@@ -1,4 +1,8 @@
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5001";
+// api.js
+
+// ✅ Replace this with your deployed backend API link
+// Example: "https://your-backend-server.com"
+const API_BASE_URL = process.env.REACT_APP_API_URL || "https://ai-therapist-backend-msta.onrender.com";
 
 export async function sendMessage(message) {
   try {

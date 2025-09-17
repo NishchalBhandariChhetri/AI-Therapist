@@ -7,54 +7,53 @@
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body>
-      <!-- Main Chat Area -->
-      <div id="root">
-        <h1>AI Therapist</h1>
-        <div class="chat-container">
-          <input
-            type="text"
-            id="message-input"
-            placeholder="Share your thoughts..."
-          />
-          <button onclick="sendMessage()">Send</button>
-          <div id="response" class="response">
-            AI: Waiting for your message...
-          </div>
+    <!-- Main Chat Area -->
+    <div id="root">
+      <h1>AI Therapist</h1>
+      <div class="chat-container">
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Share your thoughts..."
+        />
+        <button id="send-button">Send</button>
+        <div id="response" class="response">
+          AI: Waiting for your message...
         </div>
       </div>
     </div>
 
-    <script>
-      function sendMessage() {
-        const input = document.getElementById("message-input");
-        const responseDiv = document.getElementById("response");
-        const message = input.value.trim();
+    <!-- Import your API helper -->
+    <script type="module">
+      import { sendMessage } from "./src/api.js";
 
-        if (message) {
-          responseDiv.textContent = "AI: Processing...";
-          fetch("http://localhost:5001/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message }),
-          })
-            .then((res) => {
-              if (!res.ok) throw new Error("Server error");
-              return res.json();
-            })
-            .then((data) => {
-              responseDiv.textContent = `AI: ${
-                data.reply || "No response from server."
-              }`;
-            })
-            .catch((error) => {
-              console.error("Fetch error:", error);
-              responseDiv.textContent =
-                "AI: Could not connect to server. Please ensure the server is running at http://localhost:5001.";
-              responseDiv.classList.add("error");
-            });
-          input.value = "";
+      const input = document.getElementById("message-input");
+      const responseDiv = document.getElementById("response");
+      const sendButton = document.getElementById("send-button");
+
+      async function handleSend() {
+        const message = input.value.trim();
+        if (!message) return;
+
+        responseDiv.textContent = "AI: Processing...";
+        try {
+          const data = await sendMessage(message);
+          responseDiv.textContent = `AI: ${
+            data.reply || "No response from server."
+          }`;
+        } catch (error) {
+          console.error("Error calling API:", error);
+          responseDiv.textContent =
+            "AI: Could not connect to the server. Please try again later.";
+          responseDiv.classList.add("error");
         }
+        input.value = "";
       }
+
+      sendButton.addEventListener("click", handleSend);
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") handleSend();
+      });
     </script>
   </body>
 </html>
