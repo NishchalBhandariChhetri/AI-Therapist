@@ -1,7 +1,3 @@
-// api.js
-
-// ✅ Replace this with your deployed backend API link
-// Example: "https://your-backend-server.com"
 const API_BASE_URL = process.env.REACT_APP_API_URL || "https://ai-therapist-backend-msta.onrender.com";
 
 export async function sendMessage(message) {
@@ -23,4 +19,6 @@ export async function sendMessage(message) {
     console.error("API call failed:", err);
     return { error: err.message || "Something went wrong" };
   }
+  console.log("Sending to:", `${API_BASE_URL}/api/chat`);
+
 }
