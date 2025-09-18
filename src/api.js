@@ -1,5 +1,7 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL || "https://ai-therapist-backend-msta.onrender.com";
 
+console.log("Using API:", API_BASE_URL);
+
 export async function sendMessage(message) {
   try {
     const response = await fetch(`${API_BASE_URL}/api/chat`, {
