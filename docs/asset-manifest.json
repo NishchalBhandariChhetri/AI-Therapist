@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/AI-Therapist-Frontend/static/css/main.a4c600fd.css",
+    "main.js": "/AI-Therapist-Frontend/static/js/main.1f9d2aba.js",
+    "index.html": "/AI-Therapist-Frontend/index.html",
+    "main.a4c600fd.css.map": "/AI-Therapist-Frontend/static/css/main.a4c600fd.css.map",
+    "main.1f9d2aba.js.map": "/AI-Therapist-Frontend/static/js/main.1f9d2aba.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a4c600fd.css",
+    "static/js/main.1f9d2aba.js"
+  ]
+}
