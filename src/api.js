@@ -1,6 +1,5 @@
 // Use environment variable for backend URL; fallback to Render URL if not set
-const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "https://ai-therapist-backend-msta.onrender.com";
+const API_BASE_URL = "https://ai-therapist-backend-msta.onrender.com";
 
 console.log("Using API URL:", API_BASE_URL);
 
