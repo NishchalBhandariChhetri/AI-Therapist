@@ -5,10 +5,10 @@
   "private": true,
   "main": "src/index.js",
   "scripts": {
+    "predeploy": "npm run build && touch build/.nojekyll",
+    "deploy": "gh-pages -d build",
     "start": "craco start",
     "build": "craco build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
