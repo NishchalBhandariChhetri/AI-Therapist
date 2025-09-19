@@ -4,20 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Therapist</title>
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <!-- Main Chat Area -->
-    <div id="root">
-      <h1>AI Therapist</h1>
-      <div class="chat-container">
-        <input
-          type="text"
-          id="message-input"
-          placeholder="Share your thoughts..."
-        />
-        <button id="send-button">Send</button>
-        <div id="response" class="response">
-          AI: Waiting for your message...
+    <!-- Mobile Header (visible only on small screens) -->
+    <div class="mobile-header">
+      <span class="hamburger" onclick="toggleSidebar()">☰</span>
+      <span>AI Therapist</span>
+    </div>
+
+    <div class="layout">
+      <!-- Sidebar -->
+      <div class="sidebar" id="sidebar">
+        <button class="new-chat">+ New Chat</button>
+        <ul class="chat-history">
+          <li>New Chat</li>
+        </ul>
+      </div>
+
+      <!-- Main Chat Area -->
+      <div id="root">
+        <h1>AI Therapist</h1>
+        <div class="chat-container">
+          <input
+            type="text"
+            id="message-input"
+            placeholder="Share your thoughts..."
+          />
+          <button id="send-button">Send</button>
+          <div id="response" class="response">
+            AI: Waiting for your message...
+          </div>
         </div>
       </div>
     </div>
@@ -29,6 +46,11 @@
       const input = document.getElementById("message-input");
       const responseDiv = document.getElementById("response");
       const sendButton = document.getElementById("send-button");
+      const sidebar = document.getElementById("sidebar");
+
+      window.toggleSidebar = function () {
+        sidebar.classList.toggle("open");
+      };
 
       async function handleSend() {
         const message = input.value.trim();

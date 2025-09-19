@@ -98,38 +98,68 @@ button:hover {
   border-left: 4px solid #ff6b6b;
 }
 
-/* ✅ Mobile & Tablet Responsive Design */
+/* ======== Mobile Styles ======== */
 @media (max-width: 768px) {
+  body {
+    flex-direction: column;
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .layout {
+    flex-direction: column;
+    margin: 0;
+  }
+
+  /* Mobile Header Bar */
+  .mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0d1b2a;
+    padding: 12px 15px;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 20;
+  }
+
+  .hamburger {
+    font-size: 1.5em;
+    cursor: pointer;
+  }
+
+  /* Sidebar becomes sliding panel */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    height: 100%;
+    width: 240px;
+    background: #0d1b2a;
+    transition: left 0.3s ease;
+    z-index: 15;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  /* Full-width chat area */
   .chat-container {
+    width: 100%;
+    max-width: 95%;
+    margin: 0 auto;
     padding: 20px;
-    width: 95%;
   }
 
   input[type="text"] {
     width: 100%;
-    margin: 0 0 10px 0; /* Stack input & button vertically */
+    margin: 0 0 10px 0;
   }
 
   button {
     width: 100%;
-    padding: 12px;
-  }
-
-  h1 {
-    font-size: 2em;
-  }
-}
-
-@media (max-width: 480px) {
-  .chat-container {
-    padding: 15px;
-  }
-
-  h1 {
-    font-size: 1.8em;
-  }
-
-  input[type="text"], button {
-    font-size: 0.95em;
   }
 }
