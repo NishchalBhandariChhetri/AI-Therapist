@@ -29,19 +29,17 @@ h1 {
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
-  width: 100%;
-  max-width: 500px;
+  width: 500px;
+  max-width: 90%; /* ✅ Shrinks on small screens */
   text-align: center;
   backdrop-filter: blur(5px);
   border: 1px solid #00c4ff;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
 }
 
 input[type="text"] {
   padding: 12px;
-  flex: 1;
+  width: 70%;
+  margin-right: 10px;
   border: none;
   border-radius: 5px;
   background: #ffffff;
@@ -78,11 +76,11 @@ button:hover {
 }
 
 .response {
-  margin-top: 10px;
+  margin-top: 20px;
   font-size: 1.1em;
   color: #000000;
   line-height: 1.5;
-  padding: 12px;
+  padding: 15px;
   border-radius: 5px;
   background: #ffffff;
   animation: slideUp 0.5s ease-out;
@@ -100,46 +98,38 @@ button:hover {
   border-left: 4px solid #ff6b6b;
 }
 
-/* Responsive layout for input and button */
-@media (max-width: 600px) {
+/* ✅ Mobile & Tablet Responsive Design */
+@media (max-width: 768px) {
   .chat-container {
     padding: 20px;
-    border-radius: 10px;
-    max-width: 95%;
+    width: 95%;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    margin: 0 0 10px 0; /* Stack input & button vertically */
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-container {
+    padding: 15px;
   }
 
   h1 {
     font-size: 1.8em;
   }
 
-  input[type="text"] {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  button {
-    width: 100%;
-    font-size: 1.1em;
-  }
-}
-
-/* For very small screens (phones < 400px wide) */
-@media (max-width: 400px) {
-  body {
-    padding: 10px;
-  }
-
-  .chat-container {
-    padding: 15px;
-    gap: 10px;
-  }
-
-  h1 {
-    font-size: 1.5em;
-  }
-
-  .response {
-    font-size: 1em;
-    padding: 10px;
+  input[type="text"], button {
+    font-size: 0.95em;
   }
 }
